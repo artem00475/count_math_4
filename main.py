@@ -1,9 +1,9 @@
-# Считывание размерности матрицы
 from aproximation import linear, quadratic, third, power, exponential, logarithmic
 from console_utils import print_to_output
 from file_utils import print_to_file
 
 
+# Считывание размерности матрицы
 def get_matrix_size():
     print("Количество точек функции (введите f для ввода из файла, k для ввода с клавиатуры:")
 
