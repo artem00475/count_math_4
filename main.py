@@ -136,35 +136,35 @@ for i in range(1, len(table)):
     x_table.append(table[i][0])
     y_table.append(table[i][1])
 #линейная
-p_table, e_table, deviation = linear(matrix_size, x_table, y_table)
+p_table, e_table, deviation, s = linear(matrix_size, x_table, y_table)
 print_table(x_table, y_table, p_table, e_table)
-print(deviation)
+print(deviation, s)
 print()
 #квадратичная
-p_table, e_table, deviation = quadratic(matrix_size, x_table, y_table)
+p_table, e_table, deviation, s = quadratic(matrix_size, x_table, y_table)
 print_table(x_table, y_table, p_table, e_table)
-print(deviation)
+print(deviation, s)
 print()
 #3 степень
-p_table, e_table, deviation = third(matrix_size, x_table, y_table)
+p_table, e_table, deviation, s = third(matrix_size, x_table, y_table)
 print_table(x_table, y_table, p_table, e_table)
-print(deviation)
+print(deviation, s)
 print()
 if float(min(x_table)) > 0 and float(min(y_table)) > 0:
     #степенная
-    p_table, e_table, deviation = power(matrix_size, x_table, y_table)
+    p_table, e_table, deviation, s = power(matrix_size, x_table, y_table)
     print_table(x_table, y_table, p_table, e_table)
-    print(deviation)
+    print(deviation, s)
     print()
 if float(min(y_table)) > 0:
     #степенная
-    p_table, e_table, deviation = exponential(matrix_size, x_table, y_table)
+    p_table, e_table, deviation, s = exponential(matrix_size, x_table, y_table)
     print_table(x_table, y_table, p_table, e_table)
-    print(deviation)
+    print(deviation, s)
     print()
 if float(min(x_table)) > 0:
     #степенная
-    p_table, e_table, deviation = logarithmic(matrix_size, x_table, y_table)
+    p_table, e_table, deviation, s = logarithmic(matrix_size, x_table, y_table)
     print_table(x_table, y_table, p_table, e_table)
-    print(deviation)
+    print(deviation, s)
     print()
