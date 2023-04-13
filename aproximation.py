@@ -18,7 +18,20 @@ def linear(n, x_table, y_table):
     for i in range(n):
         p_table.append(round(a*x_table[i]+b, 5))
         e_table.append(round(p_table[i]-y_table[i], 5))
-    return p_table, e_table, standard_deviation(e_table, n), deviation_measure(e_table), a, b
+    return p_table, e_table, standard_deviation(e_table, n), deviation_measure(e_table), a, b, correlation(x_table, y_table, n)
+
+
+def correlation(x_table, y_table, n):
+    x_mean = sum(x_table)/n
+    y_mean = sum(y_table)/n
+    s1 = 0
+    s2 = 0
+    s3 = 0
+    for i in range(n):
+        s1 += (x_table[i]-x_mean)*(y_table[i]-y_mean)
+        s2 += (x_table[i]-x_mean)**2
+        s3 += (y_table[i]-y_mean)**2
+    return s1/(s2*s3)**0.5
 
 
 def quadratic(n, x_table, y_table):

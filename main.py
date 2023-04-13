@@ -146,7 +146,7 @@ for i in range(1, len(table)):
     x_table.append(table[i][0])
     y_table.append(table[i][1])
 #линейная
-p_table_l, e_table_l, deviation_l, s_l, a_l, b_l = linear(matrix_size, x_table, y_table)
+p_table_l, e_table_l, deviation_l, s_l, a_l, b_l, cor = linear(matrix_size, x_table, y_table)
 #квадратичная
 p_table_q, e_table_q, deviation_q, s_q, k_q = quadratic(matrix_size, x_table, y_table)
 #3 степень
@@ -170,6 +170,7 @@ num = dev.index(min(dev))
 if num == 0:
     print("Наилучшее приближение - линейное")
     print_result(x_table, y_table, p_table_l, e_table_l, deviation_l, s_l, [a_l, b_l])
+    print("Коэффициент корреляции Пирсона:", cor)
 elif num == 1:
     print("Наилучшее приближение - квадратичное")
     print_result(x_table, y_table, p_table_q, e_table_q, deviation_q, s_q, k_q)
