@@ -102,26 +102,34 @@ def get_matrix_values(size):
 
 
 # Вывод результата
-def print_result(table, x, count, fx):
+def print_result(x, y, p, e, dev, s, k):
     while True:
         t = input("Для вывода в консоль введите c, для сохранения в файл введите f: ")
         if t.split()[0] == "f":
-            print_to_file(table, x, count, fx)
+            print_to_file(x, y, p, e, dev, s, k)
             break
         elif t.split()[0] == "c":
-            print_to_output(table, x, count, fx)
+            print_to_output(x, y, p, e, dev, s, k)
             break
         else:
             print("Повторите ввод")
 
 
-def print_table(x, y, p, e):
-    b = [x, y, p, e]
-    a = [' x  ', ' y  ', 'P(x)', ' e  ']
-    for i in range(4):
-        print(a[i], end=' ')
-        for c in b[i]:
-            print('%.5f' % c, end=' ')
+def print_table(table):
+    for c in table[0]:
+        print(c, end='    ')
+    print()
+    for row in table[1:]:
+        count = 0
+        for c in row:
+            if count == 0:
+                print(c, end='    ')
+                count += 1
+            else:
+                if c >= 0:
+                    print(' %.5f' % c, end='    ')
+                else:
+                    print('%.5f' % c, end='    ')
         print()
 
 
@@ -130,7 +138,7 @@ matrix_size = get_matrix_size()
 print("Количество точек - ", matrix_size)
 table = get_matrix_values(matrix_size)
 print("\nВведенная таблица")
-print_to_output(table)
+print_table(table)
 print()
 x_table = []
 y_table = []
@@ -161,34 +169,22 @@ dev = [deviation_l, deviation_q, deviation_3, deviation_s, deviation_e, deviatio
 num = dev.index(min(dev))
 if num == 0:
     print("Наилучшее приближение - линейное")
-    print_table(x_table, y_table, p_table_l, e_table_l)
-    print(deviation_l, s_l)
-    print()
+    print_result(x_table, y_table, p_table_l, e_table_l, deviation_l, s_l, [a_l, b_l])
 elif num == 1:
     print("Наилучшее приближение - квадратичное")
-    print_table(x_table, y_table, p_table_q, e_table_q)
-    print(deviation_q, s_q)
-    print()
+    print_result(x_table, y_table, p_table_q, e_table_q, deviation_q, s_q, k_q)
 elif num == 2:
     print("Наилучшее приближение - полином 3 степени")
-    print_table(x_table, y_table, p_table_3, e_table_3)
-    print(deviation_3, s_3)
-    print()
+    print_result(x_table, y_table, p_table_3, e_table_3, deviation_3, s_3, k_3)
 elif num == 3:
     print("Наилучшее приближение - степенное")
-    print_table(x_table, y_table, p_table_s, e_table_s)
-    print(deviation_s, s_s)
-    print()
+    print_result(x_table, y_table, p_table_s, e_table_s, deviation_s, s_s, [a_s, b_s])
 elif num == 4:
     print("Наилучшее приближение - экспоненциальное")
-    print_table(x_table, y_table, p_table_e, e_table_e)
-    print(deviation_e, s_e)
-    print()
+    print_result(x_table, y_table, p_table_e, e_table_e, deviation_e, s_e, [a_e, b_e])
 elif num == 5:
     print("Наилучшее приближение - логарифмическое")
-    print_table(x_table, y_table, p_table_log, e_table_log)
-    print(deviation_log, s_log)
-    print()
+    print_result(x_table, y_table, p_table_log, e_table_log, deviation_log, s_log, [a_log, b_log])
 
 x = np.arange(float(min(x_table))-0.5, float(max(x_table)) + 0.51, 0.01)
 plt.plot(x_table, y_table, label='Исходная функция')
