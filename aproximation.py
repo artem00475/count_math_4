@@ -46,6 +46,45 @@ def quadratic(n, x_table, y_table):
         e_table.append(round(p_table[i] - y_table[i], 5))
     return p_table, e_table
 
+
+def third(n, x_table, y_table):
+    sx = sum(x_table)
+    sy = sum(y_table)
+    sxx = 0
+    for i in x_table:
+        sxx += i ** 2
+    sxxx = 0
+    for i in x_table:
+        sxxx += i ** 3
+    sxxxx = 0
+    for i in x_table:
+        sxxxx += i ** 4
+    sxxxxx = 0
+    for i in x_table:
+        sxxxxx += i ** 5
+    sxxxxxx = 0
+    for i in x_table:
+        sxxxxxx += i ** 6
+    sxy = 0
+    for i in range(n):
+        sxy += x_table[i] * y_table[i]
+    sxxy = 0
+    for i in range(n):
+        sxxy += x_table[i] ** 2 * y_table[i]
+    sxxxy = 0
+    for i in range(n):
+        sxxxy += x_table[i] ** 3 * y_table[i]
+    table = [[n, sx, sxx, sxxx, sy], [sx, sxx, sxxx, sxxxx, sxy], [sxx, sxxx, sxxxx, sxxxxx, sxxy], [sxxx, sxxxx, sxxxxx, sxxxxxx, sxxxy]]
+    a_table = calculate_matrix(table, 4)
+    print(a_table)
+    p_table = []
+    e_table = []
+    for i in range(n):
+        p_table.append(round(a_table[0]+a_table[1]*x_table[i]+a_table[2]*x_table[i]**2+a_table[3]*x_table[i]**3, 5))
+        e_table.append(round(p_table[i] - y_table[i], 5))
+    return p_table, e_table
+
+
 # Приведение матрицы к треугольному виду с выбором главного элемента по столбцу
 def matrix_to_triangle(table, size):
     k = 0
@@ -88,7 +127,7 @@ def calculate_matrix(table, size):
         sum = table[row][-1]
         for i in range(row + 1, size):
             sum -= table[row][i] * x_table[i]
-        x_table[row] = round(sum / table[row][row], 15)
+        x_table[row] = round(sum / table[row][row], 5)
         if abs(x_table[row]) == 0:
             x_table[row] = abs(x_table[row])
     return x_table

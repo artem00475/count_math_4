@@ -1,5 +1,5 @@
 # Считывание размерности матрицы
-from aproximation import linear, quadratic
+from aproximation import linear, quadratic, third
 from console_utils import print_to_output
 from file_utils import print_to_file
 
@@ -135,6 +135,6 @@ y_table = []
 for i in range(1, len(table)):
     x_table.append(table[i][0])
     y_table.append(table[i][1])
-p_table, e_table = quadratic(matrix_size, x_table, y_table)
+p_table, e_table = third(matrix_size, x_table, y_table)
 print_table(x_table, y_table, p_table, e_table)
 
