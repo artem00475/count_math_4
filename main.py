@@ -135,6 +135,18 @@ y_table = []
 for i in range(1, len(table)):
     x_table.append(table[i][0])
     y_table.append(table[i][1])
-p_table, e_table = third(matrix_size, x_table, y_table)
+#линейная
+p_table, e_table, deviation = linear(matrix_size, x_table, y_table)
 print_table(x_table, y_table, p_table, e_table)
-
+print(deviation)
+print()
+#квадратичная
+p_table, e_table, deviation = quadratic(matrix_size, x_table, y_table)
+print_table(x_table, y_table, p_table, e_table)
+print(deviation)
+print()
+#3 степень
+p_table, e_table, deviation = third(matrix_size, x_table, y_table)
+print_table(x_table, y_table, p_table, e_table)
+print(deviation)
+print()

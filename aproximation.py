@@ -15,7 +15,7 @@ def linear(n, x_table, y_table):
     for i in range(n):
         p_table.append(round(a*x_table[i]+b, 5))
         e_table.append(round(p_table[i]-y_table[i], 5))
-    return p_table, e_table
+    return p_table, e_table, standard_deviation(e_table, n)
 
 
 def quadratic(n, x_table, y_table):
@@ -44,7 +44,7 @@ def quadratic(n, x_table, y_table):
     for i in range(n):
         p_table.append(round(a_table[0]+a_table[1]*x_table[i]+a_table[2]*x_table[i]**2, 5))
         e_table.append(round(p_table[i] - y_table[i], 5))
-    return p_table, e_table
+    return p_table, e_table, standard_deviation(e_table, n)
 
 
 def third(n, x_table, y_table):
@@ -82,7 +82,15 @@ def third(n, x_table, y_table):
     for i in range(n):
         p_table.append(round(a_table[0]+a_table[1]*x_table[i]+a_table[2]*x_table[i]**2+a_table[3]*x_table[i]**3, 5))
         e_table.append(round(p_table[i] - y_table[i], 5))
-    return p_table, e_table
+    return p_table, e_table, standard_deviation(e_table, n)
+
+
+def standard_deviation(e_table, n):
+    s = 0
+    for e in e_table:
+        s+= e**2
+    s /= n
+    return s**0.5
 
 
 # Приведение матрицы к треугольному виду с выбором главного элемента по столбцу
