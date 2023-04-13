@@ -1,5 +1,5 @@
 # Считывание размерности матрицы
-from aproximation import linear, quadratic, third
+from aproximation import linear, quadratic, third, power, exponential, logarithmic
 from console_utils import print_to_output
 from file_utils import print_to_file
 
@@ -150,3 +150,21 @@ p_table, e_table, deviation = third(matrix_size, x_table, y_table)
 print_table(x_table, y_table, p_table, e_table)
 print(deviation)
 print()
+if float(min(x_table)) > 0 and float(min(y_table)) > 0:
+    #степенная
+    p_table, e_table, deviation = power(matrix_size, x_table, y_table)
+    print_table(x_table, y_table, p_table, e_table)
+    print(deviation)
+    print()
+if float(min(y_table)) > 0:
+    #степенная
+    p_table, e_table, deviation = exponential(matrix_size, x_table, y_table)
+    print_table(x_table, y_table, p_table, e_table)
+    print(deviation)
+    print()
+if float(min(x_table)) > 0:
+    #степенная
+    p_table, e_table, deviation = logarithmic(matrix_size, x_table, y_table)
+    print_table(x_table, y_table, p_table, e_table)
+    print(deviation)
+    print()

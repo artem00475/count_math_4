@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def linear(n, x_table, y_table):
     sx = sum(x_table)
     sy = sum(y_table)
@@ -85,10 +88,84 @@ def third(n, x_table, y_table):
     return p_table, e_table, standard_deviation(e_table, n)
 
 
+def power(n, x_table, y_table):
+    X_table = []
+    Y_table = []
+    for i in range(n):
+        X_table.append(round(np.log(float(x_table[i])), 5))
+        Y_table.append(round(np.log(float(y_table[i])), 5))
+    sx = sum(X_table)
+    sy = sum(Y_table)
+    sxx = 0
+    for i in X_table:
+        sxx += i ** 2
+    sxy = 0
+    for i in range(n):
+        sxy += X_table[i] * Y_table[i]
+    b = round((sxy * n - sx * sy) / (sxx * n - sx * sx), 5)
+    A = round((sxx * sy - sx * sxy) / (sxx * n - sx * sx), 5)
+    a = round(np.exp(A), 5)
+    print(a, b)
+    p_table = []
+    e_table = []
+    for i in range(n):
+        p_table.append(round(a * x_table[i]**b, 5))
+        e_table.append(round(p_table[i] - y_table[i], 5))
+    return p_table, e_table, standard_deviation(e_table, n)
+
+
+def exponential(n, x_table, y_table):
+    Y_table = []
+    for i in range(n):
+        Y_table.append(round(np.log(float(y_table[i])), 5))
+    sx = sum(x_table)
+    sy = sum(Y_table)
+    sxx = 0
+    for i in x_table:
+        sxx += i ** 2
+    sxy = 0
+    for i in range(n):
+        sxy += x_table[i] * Y_table[i]
+    b = round((sxy * n - sx * sy) / (sxx * n - sx * sx), 5)
+    A = round((sxx * sy - sx * sxy) / (sxx * n - sx * sx), 5)
+    a = round(np.exp(A), 5)
+    print(a, b)
+    p_table = []
+    e_table = []
+    for i in range(n):
+        p_table.append(round(a * np.exp(b*x_table[i]), 5))
+        e_table.append(round(p_table[i] - y_table[i], 5))
+    return p_table, e_table, standard_deviation(e_table, n)
+
+
+def logarithmic(n, x_table, y_table):
+    X_table = []
+    for i in range(n):
+        X_table.append(round(np.log(float(x_table[i])), 5))
+    sx = sum(X_table)
+    sy = sum(y_table)
+    sxx = 0
+    for i in X_table:
+        sxx += i ** 2
+    sxy = 0
+    for i in range(n):
+        sxy += X_table[i] * y_table[i]
+    a = round((sxy * n - sx * sy) / (sxx * n - sx * sx), 5)
+    b = round((sxx * sy - sx * sxy) / (sxx * n - sx * sx), 5)
+    # a = round(np.exp(A), 5)
+    print(a, b)
+    p_table = []
+    e_table = []
+    for i in range(n):
+        p_table.append(round(a * np.log(x_table[i]) + b, 5))
+        e_table.append(round(p_table[i] - y_table[i], 5))
+    return p_table, e_table, standard_deviation(e_table, n)
+
+
 def standard_deviation(e_table, n):
     s = 0
     for e in e_table:
-        s+= e**2
+        s += e**2
     s /= n
     return s**0.5
 
