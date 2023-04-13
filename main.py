@@ -1,6 +1,8 @@
 from aproximation import linear, quadratic, third, power, exponential, logarithmic
 from console_utils import print_to_output
 from file_utils import print_to_file
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 # Считывание размерности матрицы
@@ -136,11 +138,11 @@ for i in range(1, len(table)):
     x_table.append(table[i][0])
     y_table.append(table[i][1])
 #линейная
-p_table_l, e_table_l, deviation_l, s_l = linear(matrix_size, x_table, y_table)
+p_table_l, e_table_l, deviation_l, s_l, a_l, b_l = linear(matrix_size, x_table, y_table)
 #квадратичная
-p_table_q, e_table_q, deviation_q, s_q = quadratic(matrix_size, x_table, y_table)
+p_table_q, e_table_q, deviation_q, s_q, k_q = quadratic(matrix_size, x_table, y_table)
 #3 степень
-p_table_3, e_table_3, deviation_3, s_3 = third(matrix_size, x_table, y_table)
+p_table_3, e_table_3, deviation_3, s_3, k_3 = third(matrix_size, x_table, y_table)
 deviation_s = 10**6
 deviation_e = 10**6
 deviation_log = 10**6
@@ -148,13 +150,13 @@ expon = False
 log = False
 if float(min(x_table)) > 0 and float(min(y_table)) > 0:
     #степенная
-    p_table_s, e_table_s, deviation_s, s_s = power(matrix_size, x_table, y_table)
+    p_table_s, e_table_s, deviation_s, s_s, a_s, b_s = power(matrix_size, x_table, y_table)
 if float(min(y_table)) > 0:
     #экспоненциальная
-    p_table_e, e_table_e, deviation_e, s_e = exponential(matrix_size, x_table, y_table)
+    p_table_e, e_table_e, deviation_e, s_e, a_e, b_e = exponential(matrix_size, x_table, y_table)
 if float(min(x_table)) > 0:
     #логарифмическая
-    p_table_log, e_table_log, deviation_log, s_log = logarithmic(matrix_size, x_table, y_table)
+    p_table_log, e_table_log, deviation_log, s_log, a_log, b_log = logarithmic(matrix_size, x_table, y_table)
 dev = [deviation_l, deviation_q, deviation_3, deviation_s, deviation_e, deviation_log]
 num = dev.index(min(dev))
 if num == 0:
@@ -187,3 +189,18 @@ elif num == 5:
     print_table(x_table, y_table, p_table_log, e_table_log)
     print(deviation_log, s_log)
     print()
+
+x = np.arange(float(min(x_table))-0.5, float(max(x_table)) + 0.51, 0.01)
+plt.plot(x_table, y_table, label='Исходная функция')
+plt.plot(x, a_l*x+b_l, label='Линейное приближение')
+plt.plot(x, k_q[0]+k_q[1]*x+k_q[2]*x**2, label='Квадратичное приближение')
+plt.plot(x, k_3[0]+k_3[1]*x+k_3[2]*x**2+k_3[3]*x**3, label='Полином 3 степени')
+if float(min(x_table)) > 0 and float(min(y_table)) > 0:
+    plt.plot(x, a_s * x**b_s, label='Степенное приближение')
+if float(min(y_table)) > 0:
+    plt.plot(x, a_e * np.exp(b_e*x), label='Экспоненциальное приближение')
+if float(min(x_table)) > 0:
+    plt.plot(x, a_log*np.log(x)+b_log, label='Логарифмическое приближение')
+plt.grid(True)
+plt.legend()
+plt.show()
