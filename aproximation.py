@@ -12,7 +12,7 @@ def linear(n, x_table, y_table):
         sxy += x_table[i]*y_table[i]
     a = round((sxy*n-sx*sy)/(sxx*n-sx*sx), 5)
     b = round((sxx*sy-sx*sxy)/(sxx*n-sx*sx), 5)
-    print(a, b)
+    # print(a, b)
     p_table = []
     e_table = []
     for i in range(n):
@@ -41,7 +41,7 @@ def quadratic(n, x_table, y_table):
         sxxy += x_table[i] ** 2 * y_table[i]
     table = [[n, sx, sxx, sy], [sx, sxx, sxxx, sxy], [sxx, sxxx, sxxxx, sxxy]]
     a_table = calculate_matrix(table, 3)
-    print(a_table)
+    # print(a_table)
     p_table = []
     e_table = []
     for i in range(n):
@@ -79,7 +79,7 @@ def third(n, x_table, y_table):
         sxxxy += x_table[i] ** 3 * y_table[i]
     table = [[n, sx, sxx, sxxx, sy], [sx, sxx, sxxx, sxxxx, sxy], [sxx, sxxx, sxxxx, sxxxxx, sxxy], [sxxx, sxxxx, sxxxxx, sxxxxxx, sxxxy]]
     a_table = calculate_matrix(table, 4)
-    print(a_table)
+    # print(a_table)
     p_table = []
     e_table = []
     for i in range(n):
@@ -105,7 +105,7 @@ def power(n, x_table, y_table):
     b = round((sxy * n - sx * sy) / (sxx * n - sx * sx), 5)
     A = round((sxx * sy - sx * sxy) / (sxx * n - sx * sx), 5)
     a = round(np.exp(A), 5)
-    print(a, b)
+    # print(a, b)
     p_table = []
     e_table = []
     for i in range(n):
@@ -129,7 +129,7 @@ def exponential(n, x_table, y_table):
     b = round((sxy * n - sx * sy) / (sxx * n - sx * sx), 5)
     A = round((sxx * sy - sx * sxy) / (sxx * n - sx * sx), 5)
     a = round(np.exp(A), 5)
-    print(a, b)
+    # print(a, b)
     p_table = []
     e_table = []
     for i in range(n):
@@ -153,7 +153,7 @@ def logarithmic(n, x_table, y_table):
     a = round((sxy * n - sx * sy) / (sxx * n - sx * sx), 5)
     b = round((sxx * sy - sx * sxy) / (sxx * n - sx * sx), 5)
     # a = round(np.exp(A), 5)
-    print(a, b)
+    # print(a, b)
     p_table = []
     e_table = []
     for i in range(n):

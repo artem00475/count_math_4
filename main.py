@@ -136,35 +136,54 @@ for i in range(1, len(table)):
     x_table.append(table[i][0])
     y_table.append(table[i][1])
 #линейная
-p_table, e_table, deviation, s = linear(matrix_size, x_table, y_table)
-print_table(x_table, y_table, p_table, e_table)
-print(deviation, s)
-print()
+p_table_l, e_table_l, deviation_l, s_l = linear(matrix_size, x_table, y_table)
 #квадратичная
-p_table, e_table, deviation, s = quadratic(matrix_size, x_table, y_table)
-print_table(x_table, y_table, p_table, e_table)
-print(deviation, s)
-print()
+p_table_q, e_table_q, deviation_q, s_q = quadratic(matrix_size, x_table, y_table)
 #3 степень
-p_table, e_table, deviation, s = third(matrix_size, x_table, y_table)
-print_table(x_table, y_table, p_table, e_table)
-print(deviation, s)
-print()
+p_table_3, e_table_3, deviation_3, s_3 = third(matrix_size, x_table, y_table)
+deviation_s = 10**6
+deviation_e = 10**6
+deviation_log = 10**6
+expon = False
+log = False
 if float(min(x_table)) > 0 and float(min(y_table)) > 0:
     #степенная
-    p_table, e_table, deviation, s = power(matrix_size, x_table, y_table)
-    print_table(x_table, y_table, p_table, e_table)
-    print(deviation, s)
-    print()
+    p_table_s, e_table_s, deviation_s, s_s = power(matrix_size, x_table, y_table)
 if float(min(y_table)) > 0:
-    #степенная
-    p_table, e_table, deviation, s = exponential(matrix_size, x_table, y_table)
-    print_table(x_table, y_table, p_table, e_table)
-    print(deviation, s)
-    print()
+    #экспоненциальная
+    p_table_e, e_table_e, deviation_e, s_e = exponential(matrix_size, x_table, y_table)
 if float(min(x_table)) > 0:
-    #степенная
-    p_table, e_table, deviation, s = logarithmic(matrix_size, x_table, y_table)
-    print_table(x_table, y_table, p_table, e_table)
-    print(deviation, s)
+    #логарифмическая
+    p_table_log, e_table_log, deviation_log, s_log = logarithmic(matrix_size, x_table, y_table)
+dev = [deviation_l, deviation_q, deviation_3, deviation_s, deviation_e, deviation_log]
+num = dev.index(min(dev))
+if num == 0:
+    print("Наилучшее приближение - линейное")
+    print_table(x_table, y_table, p_table_l, e_table_l)
+    print(deviation_l, s_l)
+    print()
+elif num == 1:
+    print("Наилучшее приближение - квадратичное")
+    print_table(x_table, y_table, p_table_q, e_table_q)
+    print(deviation_q, s_q)
+    print()
+elif num == 2:
+    print("Наилучшее приближение - полином 3 степени")
+    print_table(x_table, y_table, p_table_3, e_table_3)
+    print(deviation_3, s_3)
+    print()
+elif num == 3:
+    print("Наилучшее приближение - степенное")
+    print_table(x_table, y_table, p_table_s, e_table_s)
+    print(deviation_s, s_s)
+    print()
+elif num == 4:
+    print("Наилучшее приближение - экспоненциальное")
+    print_table(x_table, y_table, p_table_e, e_table_e)
+    print(deviation_e, s_e)
+    print()
+elif num == 5:
+    print("Наилучшее приближение - логарифмическое")
+    print_table(x_table, y_table, p_table_log, e_table_log)
+    print(deviation_log, s_log)
     print()
