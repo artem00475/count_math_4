@@ -1,18 +1,21 @@
 import numpy as np
 
 
-def linear(n, x_table, y_table):
+def calculate_sum(x_table, y_table, n):
+    global sx, sy, sxx, sxy
     sx = sum(x_table)
     sy = sum(y_table)
     sxx = 0
     for i in x_table:
-        sxx += i**2
+        sxx += i ** 2
     sxy = 0
     for i in range(n):
-        sxy += x_table[i]*y_table[i]
-    a = round((sxy*n-sx*sy)/(sxx*n-sx*sx), 5)
-    b = round((sxx*sy-sx*sxy)/(sxx*n-sx*sx), 5)
-    # print(a, b)
+        sxy += x_table[i] * y_table[i]
+    return round((sxy * n - sx * sy) / (sxx * n - sx * sx), 5), round((sxx * sy - sx * sxy) / (sxx * n - sx * sx), 5)
+
+
+def linear(n, x_table, y_table):
+    a, b = calculate_sum(x_table, y_table, n)
     p_table = []
     e_table = []
     for i in range(n):
@@ -35,26 +38,18 @@ def correlation(x_table, y_table, n):
 
 
 def quadratic(n, x_table, y_table):
-    sx = sum(x_table)
-    sy = sum(y_table)
-    sxx = 0
-    for i in x_table:
-        sxx += i ** 2
+    global sxxx, sxxxx, sxxy
     sxxx = 0
     for i in x_table:
         sxxx += i ** 3
     sxxxx = 0
     for i in x_table:
         sxxxx += i ** 4
-    sxy = 0
-    for i in range(n):
-        sxy += x_table[i] * y_table[i]
     sxxy = 0
     for i in range(n):
         sxxy += x_table[i] ** 2 * y_table[i]
     table = [[n, sx, sxx, sy], [sx, sxx, sxxx, sxy], [sxx, sxxx, sxxxx, sxxy]]
     a_table = calculate_matrix(table, 3)
-    # print(a_table)
     p_table = []
     e_table = []
     for i in range(n):
@@ -64,35 +59,17 @@ def quadratic(n, x_table, y_table):
 
 
 def third(n, x_table, y_table):
-    sx = sum(x_table)
-    sy = sum(y_table)
-    sxx = 0
-    for i in x_table:
-        sxx += i ** 2
-    sxxx = 0
-    for i in x_table:
-        sxxx += i ** 3
-    sxxxx = 0
-    for i in x_table:
-        sxxxx += i ** 4
     sxxxxx = 0
     for i in x_table:
         sxxxxx += i ** 5
     sxxxxxx = 0
     for i in x_table:
         sxxxxxx += i ** 6
-    sxy = 0
-    for i in range(n):
-        sxy += x_table[i] * y_table[i]
-    sxxy = 0
-    for i in range(n):
-        sxxy += x_table[i] ** 2 * y_table[i]
     sxxxy = 0
     for i in range(n):
         sxxxy += x_table[i] ** 3 * y_table[i]
     table = [[n, sx, sxx, sxxx, sy], [sx, sxx, sxxx, sxxxx, sxy], [sxx, sxxx, sxxxx, sxxxxx, sxxy], [sxxx, sxxxx, sxxxxx, sxxxxxx, sxxxy]]
     a_table = calculate_matrix(table, 4)
-    # print(a_table)
     p_table = []
     e_table = []
     for i in range(n):
@@ -107,18 +84,8 @@ def power(n, x_table, y_table):
     for i in range(n):
         X_table.append(round(np.log(float(x_table[i])), 5))
         Y_table.append(round(np.log(float(y_table[i])), 5))
-    sx = sum(X_table)
-    sy = sum(Y_table)
-    sxx = 0
-    for i in X_table:
-        sxx += i ** 2
-    sxy = 0
-    for i in range(n):
-        sxy += X_table[i] * Y_table[i]
-    b = round((sxy * n - sx * sy) / (sxx * n - sx * sx), 5)
-    A = round((sxx * sy - sx * sxy) / (sxx * n - sx * sx), 5)
+    b, A = calculate_sum(X_table, Y_table, n)
     a = round(np.exp(A), 5)
-    # print(a, b)
     p_table = []
     e_table = []
     for i in range(n):
@@ -131,18 +98,8 @@ def exponential(n, x_table, y_table):
     Y_table = []
     for i in range(n):
         Y_table.append(round(np.log(float(y_table[i])), 5))
-    sx = sum(x_table)
-    sy = sum(Y_table)
-    sxx = 0
-    for i in x_table:
-        sxx += i ** 2
-    sxy = 0
-    for i in range(n):
-        sxy += x_table[i] * Y_table[i]
-    b = round((sxy * n - sx * sy) / (sxx * n - sx * sx), 5)
-    A = round((sxx * sy - sx * sxy) / (sxx * n - sx * sx), 5)
+    b, A = calculate_sum(x_table, Y_table, n)
     a = round(np.exp(A), 5)
-    # print(a, b)
     p_table = []
     e_table = []
     for i in range(n):
@@ -155,18 +112,7 @@ def logarithmic(n, x_table, y_table):
     X_table = []
     for i in range(n):
         X_table.append(round(np.log(float(x_table[i])), 5))
-    sx = sum(X_table)
-    sy = sum(y_table)
-    sxx = 0
-    for i in X_table:
-        sxx += i ** 2
-    sxy = 0
-    for i in range(n):
-        sxy += X_table[i] * y_table[i]
-    a = round((sxy * n - sx * sy) / (sxx * n - sx * sx), 5)
-    b = round((sxx * sy - sx * sxy) / (sxx * n - sx * sx), 5)
-    # a = round(np.exp(A), 5)
-    # print(a, b)
+    a, b = calculate_sum(X_table, y_table, n)
     p_table = []
     e_table = []
     for i in range(n):
