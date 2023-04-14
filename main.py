@@ -102,14 +102,15 @@ def get_matrix_values(size):
 
 
 # Вывод результата
-def print_result(x, y, p, e, dev, s, k):
+def print_result(x, y, p, e, dev, s, k, table, c, num):
+    text = ["Наилучшее приближение - линейное", "Наилучшее приближение - квадратичное", "Наилучшее приближение - полином 3 степени", "Наилучшее приближение - степенное", "Наилучшее приближение - экспоненциальное", "Наилучшее приближение - логарифмическое"]
     while True:
         t = input("Для вывода в консоль введите c, для сохранения в файл введите f: ")
         if t.split()[0] == "f":
-            print_to_file(x, y, p, e, dev, s, k)
+            print_to_file(x, y, p, e, dev, s, k, table, c, text[num])
             break
         elif t.split()[0] == "c":
-            print_to_output(x, y, p, e, dev, s, k)
+            print_to_output(x, y, p, e, dev, s, k, table, c, text[num])
             break
         else:
             print("Повторите ввод")
@@ -133,7 +134,7 @@ def print_table(table):
         print()
 
 
-print("Апроксимация фукнции.")
+print("Аппроксимация фукнции.")
 matrix_size = get_matrix_size()
 print("Количество точек - ", matrix_size)
 table = get_matrix_values(matrix_size)
@@ -145,12 +146,25 @@ y_table = []
 for i in range(1, len(table)):
     x_table.append(table[i][0])
     y_table.append(table[i][1])
+res = [[' X   ']]
+for i in range(matrix_size):
+    res.append([round(float(x_table[i]), 4)])
+res.append([' δ '])
 #линейная
 p_table_l, e_table_l, deviation_l, s_l, a_l, b_l, cor = linear(matrix_size, x_table, y_table)
+res[0].append('  Y_л   ')
 #квадратичная
 p_table_q, e_table_q, deviation_q, s_q, k_q = quadratic(matrix_size, x_table, y_table)
+res[0].append('  Y_к   ')
 #3 степень
 p_table_3, e_table_3, deviation_3, s_3, k_3 = third(matrix_size, x_table, y_table)
+res[0].append('  Y_3   ')
+for i in range(matrix_size):
+    res[i+1].append(round(float(p_table_l[i]), 5))
+    res[i + 1].append(round(float(p_table_q[i]), 5))
+    res[i + 1].append(round(float(p_table_3[i]), 5))
+res[-1] += [round(deviation_l, 5), round(deviation_q, 5), round(deviation_3, 5)]
+
 deviation_s = 10**6
 deviation_e = 10**6
 deviation_log = 10**6
@@ -159,33 +173,45 @@ log = False
 if float(min(x_table)) > 0 and float(min(y_table)) > 0:
     #степенная
     p_table_s, e_table_s, deviation_s, s_s, a_s, b_s = power(matrix_size, x_table, y_table)
+    res[0].append('  Y_с   ')
+    for i in range(matrix_size):
+        res[i + 1].append(round(float(p_table_s[i]), 5))
+    res[-1].append(round(deviation_s, 5))
+else:
+    print("Аппроксимация степенной функцией невозможна")
 if float(min(y_table)) > 0:
+    res[0].append('  Y_э   ')
     #экспоненциальная
     p_table_e, e_table_e, deviation_e, s_e, a_e, b_e = exponential(matrix_size, x_table, y_table)
+    for i in range(matrix_size):
+        res[i + 1].append(round(float(p_table_e[i]), 5))
+    res[-1].append(round(deviation_e, 5))
+else:
+    print("Аппроксимация экспоненциальной функцией невозможна")
 if float(min(x_table)) > 0:
+    res[0].append(' Y_лог ')
     #логарифмическая
     p_table_log, e_table_log, deviation_log, s_log, a_log, b_log = logarithmic(matrix_size, x_table, y_table)
+    for i in range(matrix_size):
+        res[i + 1].append(round(float(p_table_log[i]), 5))
+    res[-1].append(round(deviation_log, 5))
+else:
+    print("Аппроксимация логарифмической функцией невозможна")
+
 dev = [deviation_l, deviation_q, deviation_3, deviation_s, deviation_e, deviation_log]
 num = dev.index(min(dev))
 if num == 0:
-    print("Наилучшее приближение - линейное")
-    print_result(x_table, y_table, p_table_l, e_table_l, deviation_l, s_l, [a_l, b_l])
-    print("Коэффициент корреляции Пирсона:", cor)
+    print_result(x_table, y_table, p_table_l, e_table_l, deviation_l, s_l, [a_l, b_l], res, cor, 0)
 elif num == 1:
-    print("Наилучшее приближение - квадратичное")
-    print_result(x_table, y_table, p_table_q, e_table_q, deviation_q, s_q, k_q)
+    print_result(x_table, y_table, p_table_q, e_table_q, deviation_q, s_q, k_q, res, cor, 1)
 elif num == 2:
-    print("Наилучшее приближение - полином 3 степени")
-    print_result(x_table, y_table, p_table_3, e_table_3, deviation_3, s_3, k_3)
+    print_result(x_table, y_table, p_table_3, e_table_3, deviation_3, s_3, k_3, res, cor, 2)
 elif num == 3:
-    print("Наилучшее приближение - степенное")
-    print_result(x_table, y_table, p_table_s, e_table_s, deviation_s, s_s, [a_s, b_s])
+    print_result(x_table, y_table, p_table_s, e_table_s, deviation_s, s_s, [a_s, b_s], res, cor, 3)
 elif num == 4:
-    print("Наилучшее приближение - экспоненциальное")
-    print_result(x_table, y_table, p_table_e, e_table_e, deviation_e, s_e, [a_e, b_e])
+    print_result(x_table, y_table, p_table_e, e_table_e, deviation_e, s_e, [a_e, b_e], res, cor, 4)
 elif num == 5:
-    print("Наилучшее приближение - логарифмическое")
-    print_result(x_table, y_table, p_table_log, e_table_log, deviation_log, s_log, [a_log, b_log])
+    print_result(x_table, y_table, p_table_log, e_table_log, deviation_log, s_log, [a_log, b_log], res, cor, 5)
 
 x = np.arange(float(min(x_table))-0.5, float(max(x_table)) + 0.51, 0.01)
 plt.plot(x_table, y_table, label='Исходная функция')
